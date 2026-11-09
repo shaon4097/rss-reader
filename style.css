@@ -1,0 +1,376 @@
+:root {
+  --ink: #10262f;
+  --deep: #17394a;
+  --mist: #e9efee;
+  --line: #cdd9d7;
+  --sea: #86d3c5;
+  --amber: #f4b73f;
+  --rose: #ef7b88;
+  --text: #1b2b30;
+  --head: "Anek Bangla", "Hind Siliguri", sans-serif;
+  --body: "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--mist);
+  color: var(--text);
+  font: 400 17px/1.6 var(--body);
+}
+
+/* ---------- Header ---------- */
+.top {
+  background: var(--ink);
+  color: #fff;
+  padding: 28px 20px 22px;
+}
+
+.top>* {
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.top h1 {
+  margin: 0;
+  font: 800 clamp(2rem, 5vw, 3.2rem)/1.1 var(--head);
+  letter-spacing: -.01em;
+}
+
+.sub {
+  margin-block: 6px 18px;
+  color: #a9c2c4;
+  max-width: 1100px;
+}
+
+.search {
+  display: flex;
+  gap: 0;
+  border: 2px solid var(--sea);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b1c23;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+}
+
+.search input::placeholder {
+  color: #6f8f94;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.search:focus-within {
+  box-shadow: 0 0 0 4px #86d3c555;
+}
+
+.search button {
+  padding: 0 24px;
+  border: 0;
+  background: var(--sea);
+  color: var(--ink);
+  font: 700 1rem var(--head);
+  cursor: pointer;
+}
+
+.search button:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
+/* ---------- State rail: এটাই ডিজাইনের মূল আকর্ষণ ---------- */
+.rail {
+  list-style: none;
+  padding: 0;
+  margin-block: 22px 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.rail::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 9px;
+  height: 2px;
+  background: var(--deep);
+}
+
+.rail li {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  font-size: .9rem;
+  color: #6f8f94;
+  transition: color .25s;
+}
+
+.rail i {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto 6px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid var(--deep);
+  transition: all .25s;
+}
+
+.rail li.on {
+  color: #fff;
+}
+
+.rail li[data-s="IDLE"].on i {
+  background: #a9c2c4;
+  border-color: #a9c2c4;
+}
+
+.rail li[data-s="LOADING"].on i {
+  background: var(--amber);
+  border-color: var(--amber);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.rail li[data-s="SUCCESS"].on i {
+  background: var(--sea);
+  border-color: var(--sea);
+}
+
+.rail li[data-s="ERROR"].on i {
+  background: var(--rose);
+  border-color: var(--rose);
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px #f4b73f33;
+  }
+}
+
+/* ---------- Status bar ---------- */
+.bar {
+  max-width: 1100px;
+  margin: 18px auto 0;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#status {
+  margin: 0;
+  flex: 1;
+  font-weight: 500;
+}
+
+body[data-state="ERROR"] #status {
+  color: #b3303f;
+}
+
+.fmt {
+  font: 700 .8rem var(--head);
+  background: var(--deep);
+  color: var(--sea);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.view {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.view button {
+  border: 0;
+  background: #fff;
+  padding: 6px 14px;
+  font: 500 .9rem var(--body);
+  cursor: pointer;
+}
+
+.view button.on {
+  background: var(--ink);
+  color: #fff;
+}
+
+/* ---------- Cards ---------- */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 20px 48px;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px 20px 4px 20px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  border-color: var(--deep);
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--sea);
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--line);
+}
+
+.card h3 {
+  margin: 14px 16px 4px;
+  font: 700 1.15rem/1.4 var(--head);
+}
+
+.card p {
+  margin: 0 16px 10px;
+  color: #4b5f64;
+  font-size: .95rem;
+}
+
+.card small {
+  margin: auto 16px 14px;
+  color: #6b8287;
+  font-size: .82rem;
+}
+
+@media (min-width: 720px) {
+  .grid .card:first-child {
+    grid-column: span 2;
+    flex-direction: row;
+  }
+
+  .grid .card:first-child img {
+    width: 55%;
+    aspect-ratio: auto;
+    min-height: 260px;
+  }
+
+  .grid .card:first-child h3 {
+    font-size: 1.6rem;
+    margin-top: 20px;
+  }
+
+  .list .card {
+    flex-direction: row;
+  }
+
+  .list .card img {
+    width: 240px;
+    aspect-ratio: auto;
+    flex-shrink: 0;
+  }
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #10262fcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 10;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #fff;
+  width: min(720px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 24px;
+  border-radius: 4px 24px 4px 24px;
+  position: relative;
+}
+
+.modal-box img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 18px;
+}
+
+.modal-box h2 {
+  font: 800 1.6rem/1.35 var(--head);
+  margin: 16px 40px 6px 0;
+}
+
+.modal-box small {
+  color: #6b8287;
+}
+
+.modal-box p {
+  white-space: pre-line;
+}
+
+.modal-box a {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 700;
+}
+
+#closeModal {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail i {
+    animation: none !important;
+    transition: none;
+  }
+}

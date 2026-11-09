@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSS Feed Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;700;800&family=Hind+Siliguri:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-state="IDLE">
+  <header class="top">
+    <h1>RSS Feed Reader</h1>
+    <p class="sub">Paste any RSS or XML feed URL and read it as news cards.</p>
+
+    <div class="search">
+      <input id="feedUrl" type="url" placeholder="https://example.com/rss.xml" aria-label="Feed URL">
+      <button id="loadBtn">Load feed</button>
+    </div>
+
+    <ol class="rail" aria-label="Parser state">
+      <li data-s="IDLE"><i></i>Idle</li>
+      <li data-s="LOADING"><i></i>Loading</li>
+      <li data-s="SUCCESS"><i></i>Success</li>
+      <li data-s="ERROR"><i></i>Error</li>
+    </ol>
+  </header>
+
+  <section class="bar">
+    <p id="status"></p>
+    <span id="fmt" class="fmt" hidden></span>
+    <div class="view">
+      <button data-view="grid" class="on">Grid</button>
+      <button data-view="list">List</button>
+    </div>
+  </section>
+
+  <main id="cards" class="grid"></main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-box">
+      <button id="closeModal" aria-label="Close">✕</button>
+      <img id="mImg" alt="">
+      <h2 id="mTitle"></h2>
+      <small id="mMeta"></small>
+      <p id="mBody"></p>
+      <a id="mLink" target="_blank" rel="noopener">Read the original article</a>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
