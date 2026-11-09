@@ -46,8 +46,56 @@ body {
   max-width: 1100px;
 }
 
+/* ---------- Search Bar ---------- */
+.search {
+  display: flex;
+  gap: 8px;
+  border: 2px solid var(--sea);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b1c23;
+  padding: 6px;
+}
 
-/* ---------- State rail: এটাই ডিজাইনের মূল আকর্ষণ ---------- */
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+}
+
+.search input::placeholder {
+  color: #6f8f94;
+}
+
+.search input:focus {
+  outline: none;
+}
+
+.search:focus-within {
+  box-shadow: 0 0 0 4px #86d3c555;
+}
+
+.search button {
+  padding: 0 24px;
+  border: 0;
+  background: var(--sea);
+  color: var(--ink);
+  font: 700 1rem var(--head);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.search button:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
+/* ---------- State rail ---------- */
 .rail {
   list-style: none;
   padding: 0;
@@ -331,114 +379,15 @@ main {
   }
 }
 
-/* ---------- Feed list + content layout ---------- */
-.layout {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 0 20px 48px;
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-.feeds {
-  list-style: none;
-  margin: 18px 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  position: sticky;
-  top: 16px;
-}
-
-.feeds button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  text-align: left;
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font: 500 .95rem var(--body);
-  cursor: pointer;
-}
-
-.feeds button:hover {
-  border-color: var(--deep);
-}
-
-.feeds button.on {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
-}
-
-.feeds .n {
-  font-size: .8rem;
-  opacity: .65;
-}
-
-.content .bar {
-  max-width: none;
-  margin: 18px 0 0;
-  padding: 0;
-}
-
-.content main {
-  max-width: none;
-  margin: 0;
-  padding: 18px 0 0;
-}
-
-.refresh {
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font: 500 .9rem var(--body);
-  cursor: pointer;
-}
-
-.refresh:hover:not(:disabled) {
-  border-color: var(--deep);
-}
-
-.refresh:disabled {
-  opacity: .5;
-  cursor: default;
-}
-
-@media (max-width: 800px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .feeds {
-    position: static;
-    flex-direction: row;
-    overflow-x: auto;
-    padding-bottom: 6px;
-  }
-
-  .feeds button {
-    width: auto;
-    white-space: nowrap;
-  }
-}
-
-/* ---------- feed list sidebar ---------- */
+/* ---------- Feed list sidebar & layout ---------- */
 .layout {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 220px 1fr;
   gap: 24px;
+  align-items: start;
 }
 
 .layout main {
@@ -464,10 +413,14 @@ aside h2 {
   gap: 6px;
 }
 
+#feedList li {
+  position: relative;
+}
+
 #feedList button {
   width: 100%;
   text-align: left;
-  padding: 10px 12px;
+  padding: 10px 30px 10px 12px;
   border: 1px solid var(--line);
   background: #fff;
   border-radius: 4px 14px 4px 14px;
@@ -483,6 +436,25 @@ aside h2 {
   background: var(--ink);
   border-color: var(--ink);
   color: #fff;
+}
+
+#feedList .rm {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: .8rem;
+  opacity: .45;
+  cursor: pointer;
+}
+
+#feedList .rm:hover {
+  opacity: 1;
+  color: #b3303f;
+}
+
+#feedList button.on+.rm:hover {
+  color: var(--rose);
 }
 
 .refresh {
@@ -514,31 +486,4 @@ aside h2 {
   #feedList button {
     white-space: nowrap;
   }
-}
-
-#feedList li {
-  position: relative;
-}
-
-#feedList button {
-  padding-right: 30px;
-}
-
-#feedList .rm {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: .8rem;
-  opacity: .45;
-  cursor: pointer;
-}
-
-#feedList .rm:hover {
-  opacity: 1;
-  color: #b3303f;
-}
-
-#feedList button.on+.rm:hover {
-  color: var(--rose);
 }
