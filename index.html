@@ -16,14 +16,12 @@
 <body data-state="IDLE">
   <header class="top">
     <h1>RSS Feed Reader</h1>
-    <p class="sub">Paste any RSS or XML feed URL and read it as news cards.</p>
-
+    <p class="sub">Paste any RSS or XML feed URL. It is parsed, saved in SQLite, and added to your feed list.</p>
     <div class="search">
       <input id="feedUrl" type="url" placeholder="https://example.com/rss.xml" aria-label="Feed URL">
-      <button id="loadBtn">Load feed</button>
+      <button id="addBtn">Add feed</button>
     </div>
-
-    <ol class="rail" aria-label="Parser state">
+    <ol class="rail" aria-label="Page state">
       <li data-s="IDLE"><i></i>Idle</li>
       <li data-s="LOADING"><i></i>Loading</li>
       <li data-s="SUCCESS"><i></i>Success</li>
@@ -34,13 +32,20 @@
   <section class="bar">
     <p id="status"></p>
     <span id="fmt" class="fmt" hidden></span>
+    <button id="refreshBtn" class="refresh">Refresh feed</button>
     <div class="view">
       <button data-view="grid" class="on">Grid</button>
       <button data-view="list">List</button>
     </div>
   </section>
 
-  <main id="cards" class="grid"></main>
+  <div class="layout">
+    <aside>
+      <h2>Feeds</h2>
+      <ul id="feedList"></ul>
+    </aside>
+    <main id="cards" class="grid"></main>
+  </div>
 
   <div id="modal" class="modal hidden">
     <div class="modal-box">

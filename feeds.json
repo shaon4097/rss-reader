@@ -1,0 +1,27 @@
+[
+  {
+    "id": "bbc-bengali",
+    "name": "BBC Bengali",
+    "url": "https://feeds.bbci.co.uk/bengali/rss.xml"
+  },
+  {
+    "id": "bbc-world",
+    "name": "BBC World News",
+    "url": "https://feeds.bbci.co.uk/news/world/rss.xml"
+  },
+  {
+    "id": "the-verge",
+    "name": "The Verge (Atom)",
+    "url": "https://www.theverge.com/rss/index.xml"
+  },
+  {
+    "id": "fda-drugs",
+    "name": "FDA Drugs",
+    "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/drugs/rss.xml"
+  },
+  {
+    "id": "fda-recalls",
+    "name": "FDA Recalls",
+    "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/recalls/rss.xml"
+  }
+]
