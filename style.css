@@ -1,14 +1,24 @@
 :root {
-  --ink: #10262f;
-  --deep: #17394a;
-  --mist: #e9efee;
-  --line: #cdd9d7;
-  --sea: #86d3c5;
-  --amber: #f4b73f;
-  --rose: #ef7b88;
-  --text: #1b2b30;
+  --ink: #0f172a;
+  /* ডিপ ব্লু-ইনক টোন */
+  --deep: #1e3a8a;
+  /* রয়্যাল ব্লু অ্যাকসেন্ট */
+  --mist: #f0f4f8;
+  /* সফট কুল মিস্ট ব্যাকগ্রাউন্ড */
+  --line: #cbd5e1;
+  /* প্রিমিয়াম বর্ডার লাইন */
+  --sea: #38bdf8;
+  /* ভাইব্রেন্ট স্কাই ব্লু */
+  --amber: #f59e0b;
+  --rose: #ef4444;
+  /* মডার্ন রেড (Error) */
+  --success: #22c55e;
+  /* ভাইব্রেন্ট গ্রিন (Success) */
+  --text: #1e293b;
   --head: "Anek Bangla", "Hind Siliguri", sans-serif;
   --body: "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+  --shadow-sm: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 10px 25px -3px rgba(30, 58, 138, 0.1);
 }
 
 * {
@@ -24,9 +34,10 @@ body {
 
 /* ---------- Header ---------- */
 .top {
-  background: var(--ink);
+  background: linear-gradient(135deg, #090d16 0%, #1e3a8a 100%);
   color: #fff;
-  padding: 28px 20px 22px;
+  padding: 32px 20px 26px;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.3);
 }
 
 .top>* {
@@ -37,12 +48,12 @@ body {
 .top h1 {
   margin: 0;
   font: 800 clamp(2rem, 5vw, 3.2rem)/1.1 var(--head);
-  letter-spacing: -.01em;
+  letter-spacing: -.02em;
 }
 
 .sub {
   margin-block: 6px 18px;
-  color: #a9c2c4;
+  color: #93c5fd;
   max-width: 1100px;
 }
 
@@ -53,8 +64,9 @@ body {
   border: 2px solid var(--sea);
   border-radius: 12px;
   overflow: hidden;
-  background: #0b1c23;
+  background: #090d16;
   padding: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .search input {
@@ -69,7 +81,7 @@ body {
 }
 
 .search input::placeholder {
-  color: #6f8f94;
+  color: #64748b;
 }
 
 .search input:focus {
@@ -77,7 +89,7 @@ body {
 }
 
 .search:focus-within {
-  box-shadow: 0 0 0 4px #86d3c555;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
 }
 
 .search button {
@@ -88,6 +100,11 @@ body {
   font: 700 1rem var(--head);
   cursor: pointer;
   border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.search button:hover {
+  filter: brightness(1.1);
 }
 
 .search button:disabled {
@@ -112,7 +129,7 @@ body {
   right: 6%;
   top: 9px;
   height: 2px;
-  background: var(--deep);
+  background: #334155;
 }
 
 .rail li {
@@ -120,7 +137,7 @@ body {
   flex: 1;
   text-align: center;
   font-size: .9rem;
-  color: #6f8f94;
+  color: #64748b;
   transition: color .25s;
 }
 
@@ -131,17 +148,18 @@ body {
   margin: 0 auto 6px;
   border-radius: 50%;
   background: var(--ink);
-  border: 2px solid var(--deep);
+  border: 2px solid #334155;
   transition: all .25s;
 }
 
 .rail li.on {
   color: #fff;
+  font-weight: 600;
 }
 
 .rail li[data-s="IDLE"].on i {
-  background: #a9c2c4;
-  border-color: #a9c2c4;
+  background: #94a3b8;
+  border-color: #94a3b8;
 }
 
 .rail li[data-s="LOADING"].on i {
@@ -150,19 +168,23 @@ body {
   animation: pulse 1s ease-in-out infinite;
 }
 
+/* সাকসেস গ্রিন লাইট এফেক্ট */
 .rail li[data-s="SUCCESS"].on i {
-  background: var(--sea);
-  border-color: var(--sea);
+  background: var(--success);
+  border-color: var(--success);
+  box-shadow: 0 0 12px var(--success);
 }
 
+/* এরর রেড এফেক্ট */
 .rail li[data-s="ERROR"].on i {
   background: var(--rose);
   border-color: var(--rose);
+  box-shadow: 0 0 12px var(--rose);
 }
 
 @keyframes pulse {
   50% {
-    box-shadow: 0 0 0 8px #f4b73f33;
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0.3);
   }
 }
 
@@ -181,17 +203,19 @@ body {
   margin: 0;
   flex: 1;
   font-weight: 500;
+  color: var(--deep);
 }
 
 body[data-state="ERROR"] #status {
-  color: #b3303f;
+  color: var(--rose);
+  font-weight: 600;
 }
 
 .fmt {
   font: 700 .8rem var(--head);
   background: var(--deep);
   color: var(--sea);
-  padding: 2px 10px;
+  padding: 3px 12px;
   border-radius: 20px;
 }
 
@@ -200,6 +224,7 @@ body[data-state="ERROR"] #status {
   border: 1px solid var(--line);
   border-radius: 8px;
   overflow: hidden;
+  background: #fff;
 }
 
 .view button {
@@ -208,10 +233,11 @@ body[data-state="ERROR"] #status {
   padding: 6px 14px;
   font: 500 .9rem var(--body);
   cursor: pointer;
+  color: #475569;
 }
 
 .view button.on {
-  background: var(--ink);
+  background: var(--deep);
   color: #fff;
 }
 
@@ -237,15 +263,19 @@ main {
 .card {
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 4px 20px 4px 20px;
+  border-radius: 6px 18px 6px 18px;
   overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
 }
 
 .card:hover {
   border-color: var(--deep);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .card:focus-visible {
@@ -262,17 +292,18 @@ main {
 .card h3 {
   margin: 14px 16px 4px;
   font: 700 1.15rem/1.4 var(--head);
+  color: var(--ink);
 }
 
 .card p {
   margin: 0 16px 10px;
-  color: #4b5f64;
+  color: #475569;
   font-size: .95rem;
 }
 
 .card small {
   margin: auto 16px 14px;
-  color: #6b8287;
+  color: #64748b;
   font-size: .82rem;
 }
 
@@ -308,7 +339,8 @@ main {
 .modal {
   position: fixed;
   inset: 0;
-  background: #10262fcc;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,8 +358,9 @@ main {
   max-height: 90vh;
   overflow: auto;
   padding: 24px;
-  border-radius: 4px 24px 4px 24px;
+  border-radius: 8px 24px 8px 24px;
   position: relative;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 .modal-box img {
@@ -339,25 +372,32 @@ main {
 .modal-box h2 {
   font: 800 1.6rem/1.35 var(--head);
   margin: 16px 40px 6px 0;
+  color: var(--ink);
 }
 
 .modal-box small {
-  color: #6b8287;
+  color: #64748b;
 }
 
 .modal-box p {
   white-space: pre-line;
+  color: #334155;
 }
 
 .modal-box a {
   display: inline-block;
-  background: var(--ink);
+  background: var(--deep);
   color: #fff;
   padding: 10px 18px;
   border-radius: 8px;
   text-decoration: none;
   font-family: var(--head);
   font-weight: 700;
+  transition: background 0.2s;
+}
+
+.modal-box a:hover {
+  background: var(--ink);
 }
 
 #closeModal {
@@ -370,6 +410,13 @@ main {
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+#closeModal:hover {
+  background: var(--rose);
+  color: #fff;
+  border-color: var(--rose);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -379,7 +426,7 @@ main {
   }
 }
 
-/* ---------- Feed list sidebar & layout ---------- */
+/* ---------- Feed list sidebar & layout (ছোট বক্সাকার ফিড লিস্ট) ---------- */
 .layout {
   max-width: 1100px;
   margin: 0 auto;
@@ -397,16 +444,16 @@ main {
 }
 
 aside h2 {
-  margin: 18px 0 0;
-  font: 700 .85rem var(--head);
+  margin: 18px 0 8px;
+  font: 700 .8rem var(--head);
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: #6b8287;
+  color: #64748b;
 }
 
 #feedList {
   list-style: none;
-  margin: 10px 0 24px;
+  margin: 0 0 24px;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -417,44 +464,60 @@ aside h2 {
   position: relative;
 }
 
+/* ছোট বক্স আকৃতির ফিড বাটন স্টাইল */
 #feedList button {
   width: 100%;
   text-align: left;
-  padding: 10px 30px 10px 12px;
+  padding: 8px 28px 8px 10px;
   border: 1px solid var(--line);
   background: #fff;
-  border-radius: 4px 14px 4px 14px;
-  font: 500 .95rem var(--body);
+  border-radius: 6px;
+  font: 500 .9rem var(--body);
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #feedList button:hover {
-  border-color: var(--deep);
+  border-color: var(--sea);
+  background: #f8fafc;
+  color: var(--deep);
 }
 
 #feedList button.on {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--deep);
+  border-color: var(--deep);
   color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(30, 58, 138, 0.25);
 }
 
 #feedList .rm {
   position: absolute;
-  right: 10px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: .8rem;
-  opacity: .45;
+  font-size: .75rem;
+  opacity: .5;
   cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
 }
 
 #feedList .rm:hover {
   opacity: 1;
-  color: #b3303f;
+  color: #fff;
+  background: var(--rose);
 }
 
 #feedList button.on+.rm:hover {
-  color: var(--rose);
+  color: #fff;
+  background: var(--rose);
 }
 
 .refresh {
@@ -464,6 +527,13 @@ aside h2 {
   border-radius: 8px;
   font: 500 .9rem var(--body);
   cursor: pointer;
+  transition: all 0.2s;
+  color: var(--deep);
+}
+
+.refresh:hover:not(:disabled) {
+  border-color: var(--sea);
+  background: #f8fafc;
 }
 
 .refresh:disabled {
@@ -485,5 +555,6 @@ aside h2 {
 
   #feedList button {
     white-space: nowrap;
+    width: auto;
   }
 }
