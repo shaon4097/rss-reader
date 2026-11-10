@@ -4,8 +4,8 @@
  * Requirements: Node.js 22.13+ and @types/node.
  * The existing parser.js remains usable without modification.
  *
- * Compile to dist/server.js using tsconfig.server.json, then run:
- *   node dist/server.js
+ * Compile to dist-server/server.js using tsconfig.server.json, then run:
+ *   node dist-server/server.js
  */
 
 import * as http from "node:http";
@@ -60,7 +60,7 @@ dns.setDefaultResultOrder("ipv4first");
 
 const PORT: number = Number(process.env.PORT ?? 3000);
 
-// Works both for `tsx server.ts` at the project root and compiled dist/server.js.
+// Works both for `tsx server.ts` at the project root and compiled dist-server/server.js.
 const PROJECT_DIR: string = fs.existsSync(path.join(__dirname, "feeds.json"))
   ? __dirname
   : path.resolve(__dirname, "..");
@@ -257,7 +257,12 @@ async function refresh(id: string): Promise<number> {
     parsed = parseXmlOrThrow(body);
   } catch (error: unknown) {
     const alt = findFeedLink(body, feed.url);
-    if (!alt) throw error;
+    if (!alt) {
+      if (error instanceof AppError && error.code === "UNSUPPORTED_FORMAT" && /<html/i.test(body)) {
+        throw new AppError("FEED_NOT_FOUND", 422, "No RSS feed found at this address.");
+      }
+      throw error;
+    }
     body = await download(alt);
     parsed = parseXmlOrThrow(body);
     resolvedUrl = alt;
@@ -338,7 +343,7 @@ function readBody(req: IncomingMessage): Promise<unknown> {
 const PUBLIC: Record<string, string> = {
   "/index.html": "text/html; charset=utf-8",
   "/style.css": "text/css; charset=utf-8",
-  "/app.js": "text/javascript; charset=utf-8",
+  "/dist/app.js": "text/javascript; charset=utf-8",
 };
 
 function sendError(res: ServerResponse, error: unknown): void {
@@ -350,6 +355,15 @@ function sendError(res: ServerResponse, error: unknown): void {
 }
 
 async function handleRequest(req: IncomingMessage, res: ServerResponse): Promise<void> {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   try {
     const { pathname } = new URL(req.url ?? "/", "http://localhost");
 
@@ -400,6 +414,11 @@ async function handleRequest(req: IncomingMessage, res: ServerResponse): Promise
       try {
         await refresh(id);
       } catch (error: unknown) {
+        if (error instanceof AppError && error.retryable) {
+          // Temporary network failure: keep the URL for future retries.
+          json(res, 200, { id, warning: error.message });
+          return;
+        }
         deleteFeed(id);
         sendError(res, error);
         return;
@@ -468,10 +487,7 @@ async function handleRequest(req: IncomingMessage, res: ServerResponse): Promise
       return;
     }
 
-    // Always serve TypeScript-built frontend rather than stale app.js.
-    const staticPath = file === "/app.js"
-      ? path.join(PROJECT_DIR, "dist", "app.js")
-      : path.join(PROJECT_DIR, file.slice(1));
+    const staticPath = path.join(PROJECT_DIR, file.slice(1));
     const contents = fs.readFileSync(staticPath);
     res.writeHead(200, { "Content-Type": contentType });
     res.end(contents);

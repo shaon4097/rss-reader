@@ -1,24 +1,36 @@
 {
   "name": "rss-reader",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "RSS/XML Feed Reader with TypeScript and Error Handling",
+  "main": "dist-server/server.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.server.json",
+    "start": "node dist-server/server.js",
+    "dev": "npm run build && npm start",
+    "test": "npm run build && node --test dist-server/tests/parser.test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/shaon4097/rss-reader.git"
   },
-  "keywords": [],
+  "keywords": [
+    "rss",
+    "xml",
+    "typescript",
+    "fsm",
+    "error-handling"
+  ],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/shaon4097/rss-reader/issues"
   },
   "homepage": "https://github.com/shaon4097/rss-reader#readme",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "devDependencies": {
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",

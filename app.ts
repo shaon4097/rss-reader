@@ -131,12 +131,19 @@ function isDeleteFeedResponse(value: unknown): value is DeleteFeedResponse {
   return isObject(value) && value.ok === true;
 }
 
+const API = location.port === "3000" ? "" : "http://localhost:3000";
+
 async function api<T>(
   path: string,
   opts: RequestInit | undefined,
   guard: Guard<T>
 ): Promise<T> {
-  const res = await fetch(path, opts);
+  let res: Response;
+  try {
+    res = await fetch(API + path, opts);
+  } catch {
+    throw new Error("Cannot reach the server on port 3000. Open cmd and run: pm2 resurrect");
+  }
   const data: unknown = await res.json().catch(() => ({}));
 
   if (!res.ok) {
